@@ -1,4 +1,4 @@
-## Writeup Template
+## Writeup
 
 ---
 
@@ -21,8 +21,8 @@ The goals / steps of this project are the following:
 [image2]: ./test_images/test1.jpg "Road Transformed"
 [image3]: ./output_images/undistort_test1_output.png "Undistorted test image"
 [image4]: ./output_images/binary_combo_example.png "Binary Example"
-[image5]: ./output_images/warped_straight_lines.jpg "Warp Example"
-[image6]: ./output_images/color_fit_lines.jpg "Fit Visual"
+[image5]: ./output_images/warped_straight_lines.png "Warp Example"
+[image6]: ./output_images/color_fit_lines.png "Fit Visual"
 [image7]: ./output_images/frame_from_project_video_result.jpg "Output"
 [video1]: ./project_video_result.mp4 "Video"
 
