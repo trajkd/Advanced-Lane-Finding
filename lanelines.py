@@ -314,6 +314,13 @@ def process_image(image):
 	# Calculation of R_curve (radius of curvature)
 	left_curverad = ((1 + (2*left_fit[0]*y_eval*ym_per_pix + left_fit[1])**2)**1.5) / np.absolute(2*left_fit[0])
 	right_curverad = ((1 + (2*right_fit[0]*y_eval*ym_per_pix + right_fit[1])**2)**1.5) / np.absolute(2*right_fit[0])
+	radius = (left_curverad + right_curverad) / 2
+	# Find position of the vehicle from the center
+	left_pos = left_fitx[-1]
+	right_pos = right_fitx[-1]
+	car_pos = (left_pos + right_pos) / 2
+	center_pos = undist.shape[1] / 2
+	offset = xm_per_pix * (car_pos - center_pos)
 
 	# Create an image to draw the lines on
 	warp_zero = np.zeros_like(binary_warped).astype(np.uint8)
@@ -331,6 +338,9 @@ def process_image(image):
 	newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0])) 
 	# Combine the result with the original image
 	result = cv2.addWeighted(undist, 1, newwarp, 0.3, 0)
+
+	cv2.putText(result, 'Radius of Curvature = {:.0f} m'.format(radius), (475,55), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 4)
+	cv2.putText(result, 'Vehicle position = {:.2f} m'.format(offset), (475,90), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 4)
 	return result
 
 #img = mpimg.imread('output_images/frame_from_project_video.jpg')

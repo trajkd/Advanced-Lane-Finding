@@ -103,11 +103,11 @@ Then I did some other stuff and fit my lane lines with a 2nd order polynomial (i
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines 309 through 316 in my code in `lanelines.py`
+I did this in lines 309 through 323 in my code in `lanelines.py`
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `lanelines.py` at the end of the function `process_image(img)`.  Here is an example of my result on a test image:
+I implemented this step in lines 325 through 344 in my code in `lanelines.py` at the end of the function `process_image(img)`.  Here is an example of my result on a test image:
 
 ![Output][image7]
 
