@@ -60,7 +60,7 @@ To demonstrate this step, I will describe how I apply the distortion correction 
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines 75 through 142 in `lanelines.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines 75 through 143 in `lanelines.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
 
 ![Binary Example][image4]
 
@@ -97,17 +97,17 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial (in lines 143 through 307, where each step is commented) kinda like this:
+Then I did some other stuff and fit my lane lines with a 2nd order polynomial (in lines 146 through 308, where each step is commented) kinda like this:
 
 ![Fit Visual][image6]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines 309 through 323 in my code in `lanelines.py`
+I did this in lines 310 through 324 in my code in `lanelines.py`
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines 325 through 344 in my code in `lanelines.py` at the end of the function `process_image(img)`.  Here is an example of my result on a test image:
+I implemented this step in lines 326 through 349 in my code in `lanelines.py` at the end of the function `process_image(img)`.  Here is an example of my result on a test image:
 
 ![Output][image7]
 

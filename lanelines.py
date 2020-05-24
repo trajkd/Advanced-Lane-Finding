@@ -121,6 +121,7 @@ def dir_threshold(image, sobel_kernel=3, thresh=(0, np.pi/2)):
 	return dir_binary
 
 def process_image(image):
+	global prev_color_warp
 	#image = mpimg.imread("test_images/"+os.listdir("test_images/")[2])
 	# Undistort image
 	undist = cv2.undistort(image, mtx, dist, None, mtx)
@@ -322,17 +323,22 @@ def process_image(image):
 	center_pos = undist.shape[1] / 2
 	offset = xm_per_pix * (car_pos - center_pos)
 
-	# Create an image to draw the lines on
-	warp_zero = np.zeros_like(binary_warped).astype(np.uint8)
-	color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+	lane_width = right_pos - left_pos
+	if xm_per_pix * lane_width > 3.5 and xm_per_pix * lane_width < 3.9 or prev_color_warp is None:
+		# Create an image to draw the lines on
+		warp_zero = np.zeros_like(binary_warped).astype(np.uint8)
+		color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
 
-	# Recast the x and y points into usable format for cv2.fillPoly()
-	pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
-	pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
-	pts = np.hstack((pts_left, pts_right))
+		# Recast the x and y points into usable format for cv2.fillPoly()
+		pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+		pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+		pts = np.hstack((pts_left, pts_right))
 
-	# Draw the lane onto the warped blank image
-	cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+		# Draw the lane onto the warped blank image
+		cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
+
+	else:
+		color_warp = prev_color_warp
 
 	# Warp the blank back to original image space using inverse perspective matrix (Minv)
 	newwarp = cv2.warpPerspective(color_warp, Minv, (image.shape[1], image.shape[0])) 
@@ -341,12 +347,16 @@ def process_image(image):
 
 	cv2.putText(result, 'Radius of Curvature = {:.0f} m'.format(radius), (475,55), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 4)
 	cv2.putText(result, 'Vehicle position = {:.2f} m'.format(offset), (475,90), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 4)
+	
+	# Save previous frame's lane area
+	prev_color_warp = color_warp
 	return result
 
 #img = mpimg.imread('output_images/frame_from_project_video.jpg')
 #img = mpimg.imread('test_images/straight_lines1.jpg')
 mtx, dist = camera_calibration()
 #process_image(img)
+prev_color_warp = None
 output = 'project_video_result.mp4'
 clip = VideoFileClip("project_video.mp4")
 white_clip = clip.fl_image(process_image)
